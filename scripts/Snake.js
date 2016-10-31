@@ -102,6 +102,11 @@ var SNAKE = (function() {
 		}
 	}
 
+	oNcolision = function()
+	{
+		
+	}
+
 
 	return{
 		init: function()
@@ -113,11 +118,15 @@ var SNAKE = (function() {
 
 				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
 				direction = 'right'	;
-				initSnake();
-				mainLoopStart();	
-		
-
-		
+				var $text = $(document.createElement('div'));
+				$text.text('Click here to start');
+				$text.addClass('startText');
+				$mainArea.prepend($text);
+				$text.on('click', function(){ 
+					initSnake();
+					mainLoopStart();	
+					$text.remove();
+				});
 			}
 	};
 })();
