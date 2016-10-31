@@ -104,7 +104,7 @@ var SNAKE = (function() {
 
 	oNcolision = function()
 	{
-		
+
 	}
 
 
@@ -115,18 +115,17 @@ var SNAKE = (function() {
 				$mainArea.addClass('mainArea').width(width*10+10).height(height*10+10);
 				$('body').prepend($mainArea);
 				$(document).on('keydown', directionSet);
-
 				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
 				direction = 'right'	;
-				var $text = $(document.createElement('div'));
-				$text.text('Click here to start');
-				$text.addClass('startText');
-				$mainArea.prepend($text);
-				$text.on('click', function(){ 
-					initSnake();
-					mainLoopStart();	
-					$text.remove();
-				});
+				var $startText = $(document.createElement('div'))
+								.text('Click here to start')
+								.addClass('startText').
+								on('click', function(){ 
+									initSnake();
+									mainLoopStart();	
+									$(this).remove();
+								});
+				$mainArea.prepend($startText);
 			}
 	};
 })();
