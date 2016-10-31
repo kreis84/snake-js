@@ -10,7 +10,10 @@ var SNAKE = (function() {
 		point = {x: 0, y:0},
 		snake = [],
 		direction,
-		interval = 100;
+		interval = 100,
+		intervalVariavle,
+		obstaclesQuantity = 50,
+		obstacles = [];
 
 	initSnake = function()
 	{
@@ -25,13 +28,26 @@ var SNAKE = (function() {
 		}
 	}	
 
+	initObstacle = function()
+	{
+ 		var $obstacle;
+		for(var i = 0; i < obstacles.length; i++)
+		{
+			$obstacle =	$(document.createElement('div'))
+					.addClass('obstacle')
+					.offset({top: obstacles[i].x*10 + $mainArea.offset().top + 2,
+							 left: obstacles[i].y*10 + $mainArea.offset().left + 2,});
+			$mainArea.append($obstacle);
+		}
+	}
+
 	drawScene = function()
 	{		
 		var top, left;
 		for(var i = 0; i < snake.length; i++)
 		{
-			top = snake[i].x * 10 + $mainArea.offset().left+2;
-			left =  snake[i].y * 10 + $mainArea.offset().top+2;
+			top = snake[i].x * 10 + $mainArea.offset().top+2;
+			left =  snake[i].y * 10 + $mainArea.offset().left+2;
 			var string = '.snakeSegment[name=\''+i+'\']';
 			var $temp = $(string);
 			$temp.offset({top: top, left: left});
@@ -40,7 +56,7 @@ var SNAKE = (function() {
 
 	mainLoopStart = function()
 	{
-		setInterval(reecalcutePosition, interval);
+		intervalVariable = setInterval(reecalcutePosition, interval);
 	
 	}
 
@@ -79,7 +95,8 @@ var SNAKE = (function() {
 			{
 				if(i==j) continue;
 				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
-					console.log('self fail');
+					oNcolision();
+					//console.log('self fail');
 			}
 
 		////////////////////////////////////////////////////BORDER COLISION
@@ -87,7 +104,8 @@ var SNAKE = (function() {
 		{
 			if((snake[i].x < 0) || (snake[i].x > 50) ||
 			   (snake[i].y < 0) || (snake[i].y > 50))
-				console.log('border fail');
+					oNcolision();
+				//console.log('border fail');
 		}
 	}
 
@@ -104,9 +122,22 @@ var SNAKE = (function() {
 
 	oNcolision = function()
 	{
+		clearInterval(intervalVariable);
+		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
 
 	}
 
+	obstaclesCreation = function ()
+	{
+		var x=0 , y=0;
+		for (var i = 0; i < obstaclesQuantity; i++)
+		{	
+			x = Math.round(Math.random() * 50);
+			y = Math.round(Math.random() * 50);
+			obstacles.push({x: x, y: y});
+		}
+		console.log(obstacles);
+	};
 
 	return{
 		init: function()
@@ -122,7 +153,9 @@ var SNAKE = (function() {
 								.addClass('startText').
 								on('click', function(){ 
 									initSnake();
-									mainLoopStart();	
+									mainLoopStart();
+									obstaclesCreation();
+									initObstacle();	
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);

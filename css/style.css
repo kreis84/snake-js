@@ -23,6 +23,19 @@ body,html
 	background-color: white;
 	border: 2px solid grey;
 	border-radius: 2px;
+	transition: background-color 1s;
+	transition: border 1s;
+}
+
+.obstacle
+{
+	box-sizing: border-box;
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background-color: red;
+	border: 2px solid white;
 }
 
 .startText
