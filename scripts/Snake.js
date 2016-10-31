@@ -73,9 +73,13 @@ var SNAKE = (function() {
 
 	colisionCheck = function()
 	{
-		if ((snake[snake.length-1].x == snake[snake.length-2].x) 
-			&& (snake[snake.length-1].y == snake[snake.length-2].y))
-				console.log('fail');
+		for(var i = 0; i < snake.length-1; i++)
+			for(var j = 0; j < snake.length-1; j++)
+			{
+				if(i==j) continue;
+				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
+					console.log('fail');
+			}
 	}
 
 	directionSet = function(event)
