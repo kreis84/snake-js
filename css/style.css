@@ -1,0 +1,25 @@
+body,html
+{
+	margin: 0;
+	padding: 0;
+	font-family: Arial;
+	background-color: #222222;
+}
+
+.mainArea
+{
+	border: 2px solid #cccccc;
+	margin: 2%;
+	display: inline-block;
+
+}
+
+.snakeSegment
+{
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	border: 2px solid red;
+	box-sizing: border-box;
+}
