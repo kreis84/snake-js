@@ -25,13 +25,13 @@ var SNAKE = (function() {
 		}
 	}	
 
-	render = function()
+	drawScene = function()
 	{		
 		var top, left;
 		for(var i = 0; i < snake.length; i++)
 		{
-			top = snake[i].x * 10 + $mainArea.offset().left;
-			left =  snake[i].y * 10 + $mainArea.offset().top;
+			top = snake[i].x * 10 + $mainArea.offset().left+2;
+			left =  snake[i].y * 10 + $mainArea.offset().top+2;
 			var string = '.snakeSegment[name=\''+i+'\']';
 			var $temp = $(string);
 			$temp.offset({top: top, left: left});
@@ -59,7 +59,7 @@ var SNAKE = (function() {
 		snake[snake.length-1].x+=x;
 		snake[snake.length-1].y+=y;
 		colisionCheck();
-		render();
+		drawScene();
 	}	
 
 	moveSnake = function()
@@ -72,14 +72,23 @@ var SNAKE = (function() {
 	}
 
 	colisionCheck = function()
-	{
+	{	
+		/////////////////////////////////////////////////// SELF COLISION
 		for(var i = 0; i < snake.length-1; i++)
 			for(var j = 0; j < snake.length-1; j++)
 			{
 				if(i==j) continue;
 				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
-					console.log('fail');
+					console.log('self fail');
 			}
+
+		////////////////////////////////////////////////////BORDER COLISION
+		for(var i = 0; i < snake.length; i++)
+		{
+			if((snake[i].x < 0) || (snake[i].x > 50) ||
+			   (snake[i].y < 0) || (snake[i].y > 50))
+				console.log('border fail');
+		}
 	}
 
 	directionSet = function(event)
@@ -98,7 +107,7 @@ var SNAKE = (function() {
 		init: function()
 			{
 				$mainArea = $(document.createElement('div'));
-				$mainArea.addClass('mainArea').width(width*10+4).height(height*10+4);
+				$mainArea.addClass('mainArea').width(width*10+10).height(height*10+10);
 				$('body').prepend($mainArea);
 				$(document).on('keydown', directionSet);
 
