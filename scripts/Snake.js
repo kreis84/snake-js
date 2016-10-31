@@ -95,7 +95,7 @@ var SNAKE = (function() {
 			{
 				if(i==j) continue;
 				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
-					oNcolision();
+					onColision();
 					//console.log('self fail');
 			}
 
@@ -104,8 +104,15 @@ var SNAKE = (function() {
 		{
 			if((snake[i].x < 0) || (snake[i].x > 50) ||
 			   (snake[i].y < 0) || (snake[i].y > 50))
-					oNcolision();
+					onColision();
 				//console.log('border fail');
+		}
+
+		///////////////////////////////////////////////////OBSTACLE COLISION
+		for(var i=0; i<obstacles.length; i++)
+		{
+			if((snake[snake.length-1].x == obstacles[i].x) && (snake[snake.length-1].y == obstacles[i].y))
+				onColision();
 		}
 	}
 
@@ -120,7 +127,7 @@ var SNAKE = (function() {
 		}
 	}
 
-	oNcolision = function()
+	onColision = function()
 	{
 		clearInterval(intervalVariable);
 		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
@@ -134,6 +141,7 @@ var SNAKE = (function() {
 		{	
 			x = Math.round(Math.random() * 50);
 			y = Math.round(Math.random() * 50);
+			if(x==1) x = y;
 			obstacles.push({x: x, y: y});
 		}
 		console.log(obstacles);
