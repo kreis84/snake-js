@@ -38,6 +38,18 @@ body,html
 	border: 2px solid white;
 }
 
+.food
+{
+	box-sizing: border-box;
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background-color: green;
+	border: 2px solid lightgreen;
+
+}
+
 .startText
 {
 	color: white;

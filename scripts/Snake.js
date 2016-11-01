@@ -7,13 +7,14 @@ var SNAKE = (function() {
 	var width = 50,
 		height = 50,
 		$mainArea,		
-		point = {x: 0, y:0},
 		snake = [],
 		direction,
 		interval = 100,
 		intervalVariavle,
 		obstaclesQuantity = 50,
-		obstacles = [];
+		obstacles = [],
+		$food,
+		food = false;
 
 	initSnake = function()
 	{
@@ -28,6 +29,18 @@ var SNAKE = (function() {
 		}
 	}	
 
+	obstaclesCreation = function ()
+	{
+		var x=0 , y=0;
+		for (var i = 0; i < obstaclesQuantity; i++)
+		{	
+			x = Math.round(Math.random() * 50);
+			y = Math.round(Math.random() * 50);
+			if(x==1) x = y;
+			obstacles.push({x: x, y: y});
+		}
+	};
+
 	initObstacle = function()
 	{
  		var $obstacle;
@@ -38,6 +51,23 @@ var SNAKE = (function() {
 					.offset({top: obstacles[i].x*10 + $mainArea.offset().top + 2,
 							 left: obstacles[i].y*10 + $mainArea.offset().left + 2,});
 			$mainArea.append($obstacle);
+		}
+	}
+
+	foodCreator = function()
+	{
+		if(!food)
+		{
+			var x = Math.round(Math.random() * 50),// * 10 + $mainArea.offset().top + 2),
+				y = Math.round(Math.random() * 50);// * 10 + $mainArea.offset().left + 2);
+			food = {x: x, y: y};
+			x = x * 10 + $mainArea.offset().top + 2;
+			y = y * 10 + $mainArea.offset().left + 2;
+			$food = $(document.createElement('div'))
+					.addClass('food')
+					.offset({top: x, left: y});			
+			console.log(food);
+			$mainArea.append($food);
 		}
 	}
 
@@ -75,6 +105,7 @@ var SNAKE = (function() {
 		snake[snake.length-1].x+=x;
 		snake[snake.length-1].y+=y;
 		colisionCheck();
+		foodCreator();
 		drawScene();
 	}	
 
@@ -114,8 +145,24 @@ var SNAKE = (function() {
 			if((snake[snake.length-1].x == obstacles[i].x) && (snake[snake.length-1].y == obstacles[i].y))
 				onColision();
 		}
+		//////////////////////////////////////////////////////FOOD COLISION
+		if((snake[snake.length-1].x == food.x) &&  (snake[snake.length-1].y == food.y))
+			console.log('food');
+		
 	}
 
+	onColision = function()
+	{
+		clearInterval(intervalVariable);
+		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
+
+	}
+
+	onFoodColision = function()
+	{
+
+	}
+	
 	directionSet = function(event)
 	{	
 		switch (event.keyCode)
@@ -127,25 +174,7 @@ var SNAKE = (function() {
 		}
 	}
 
-	onColision = function()
-	{
-		clearInterval(intervalVariable);
-		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
 
-	}
-
-	obstaclesCreation = function ()
-	{
-		var x=0 , y=0;
-		for (var i = 0; i < obstaclesQuantity; i++)
-		{	
-			x = Math.round(Math.random() * 50);
-			y = Math.round(Math.random() * 50);
-			if(x==1) x = y;
-			obstacles.push({x: x, y: y});
-		}
-		console.log(obstacles);
-	};
 
 	return{
 		init: function()
