@@ -79,7 +79,7 @@ var SNAKE = (function() {
 		{
 			top = snake[i].x * 10 + $mainArea.offset().top+2;
 			left =  snake[i].y * 10 + $mainArea.offset().left+2;
-			var string = '.snakeSegment[name=\''+i+'\']';
+			var string = '.snakeSegment[name=\''+(snake.length-i-1)+'\']';
 			var $temp = $(string);
 			$temp.offset({top: top, left: left});
 		}
@@ -107,6 +107,11 @@ var SNAKE = (function() {
 		snake[snake.length-1].x+=x;
 		snake[snake.length-1].y+=y;
 		colisionCheck();
+		if(eating)
+			{
+				addSnakeSegment(lastSegmentPosition.x, lastSegmentPosition.y);
+				eating = false;
+			}
 		foodCreator();
 		drawScene();
 	}	
@@ -120,9 +125,16 @@ var SNAKE = (function() {
 		}
 	}
 
-	addSnakeSegment = function(point)
+	addSnakeSegment = function(x,y)
 	{
-		
+		snake.unshift({x: x, y: y});
+		var $segment = $(document.createElement('div')),
+				top = snake[0].x * 10 + $mainArea.offset().top,
+				left =  snake[0].y * 10 + $mainArea.offset().left;
+			$segment.attr({name: snake.length-1});
+			$segment.addClass('snakeSegment').offset({top: top, left:left});
+			$mainArea.prepend($segment);
+		console.log(snake);
 	}
 
 	colisionCheck = function()
@@ -154,7 +166,7 @@ var SNAKE = (function() {
 		}
 		//////////////////////////////////////////////////////FOOD COLISION
 		if((snake[snake.length-1].x == food.x) &&  (snake[snake.length-1].y == food.y))
-			onFoodColision();
+			eating = true;
 		
 	}
 
