@@ -57,19 +57,16 @@ var SNAKE = (function() {
 
 	foodCreator = function()
 	{
-		if(!food)
-		{
-			var x = Math.round(Math.random() * 50),// * 10 + $mainArea.offset().top + 2),
-				y = Math.round(Math.random() * 50);// * 10 + $mainArea.offset().left + 2);
-			food = {x: x, y: y};
-			x = x * 10 + $mainArea.offset().top + 2;
-			y = y * 10 + $mainArea.offset().left + 2;
-			$food = $(document.createElement('div'))
-					.addClass('food')
-					.offset({top: x, left: y});			
-			console.log(food);
-			$mainArea.append($food);
-		}
+		var x = Math.round(Math.random() * 50),
+			y = Math.round(Math.random() * 50);
+		food = {x: x, y: y};
+		x = x * 10 + $mainArea.offset().top + 2;
+		y = y * 10 + $mainArea.offset().left + 2;
+		$food = $(document.createElement('div'))
+				.addClass('food')
+				.offset({top: x, left: y});			
+		console.log(food);
+		$mainArea.append($food);
 	}
 
 	drawScene = function()
@@ -112,7 +109,7 @@ var SNAKE = (function() {
 				addSnakeSegment(lastSegmentPosition.x, lastSegmentPosition.y);
 				eating = false;
 			}
-		foodCreator();
+		if(!food) foodCreator();
 		drawScene();
 	}	
 
@@ -166,7 +163,11 @@ var SNAKE = (function() {
 		}
 		//////////////////////////////////////////////////////FOOD COLISION
 		if((snake[snake.length-1].x == food.x) &&  (snake[snake.length-1].y == food.y))
+		{
 			eating = true;
+			$food.remove();
+			food = false;
+		}
 		
 	}
 
