@@ -14,7 +14,8 @@ var SNAKE = (function() {
 		obstaclesQuantity = 50,
 		obstacles = [],
 		$food,
-		food = false;
+		food = false,
+		eating = false;
 
 	initSnake = function()
 	{
@@ -101,6 +102,7 @@ var SNAKE = (function() {
 			case 'left': y--; break;
 			case 'right': y++; break;
 		}
+		var lastSegmentPosition = snake[0];
 		moveSnake();
 		snake[snake.length-1].x+=x;
 		snake[snake.length-1].y+=y;
@@ -116,6 +118,11 @@ var SNAKE = (function() {
 		  	snake[i].x = snake[i+1].x;
 		  	snake[i].y = snake[i+1].y;
 		}
+	}
+
+	addSnakeSegment = function(point)
+	{
+		
 	}
 
 	colisionCheck = function()
@@ -147,7 +154,7 @@ var SNAKE = (function() {
 		}
 		//////////////////////////////////////////////////////FOOD COLISION
 		if((snake[snake.length-1].x == food.x) &&  (snake[snake.length-1].y == food.y))
-			console.log('food');
+			onFoodColision();
 		
 	}
 
@@ -162,7 +169,7 @@ var SNAKE = (function() {
 	{
 
 	}
-	
+
 	directionSet = function(event)
 	{	
 		switch (event.keyCode)
