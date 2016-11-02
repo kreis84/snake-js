@@ -6,12 +6,13 @@ $(document).ready(function(){
 var SNAKE = (function() {
 	var width = 30,
 		height = 30,
-		segmentSize = 20,
+		segmentSize = 15,
 		borderSize = 4,
 		$mainArea,		
 		snake = [],
-		direction,
-		interval = 100,
+		direction = 'right',
+		oldDirection,
+		interval = 200,
 		intervalVariavle,
 		obstaclesQuantity = 50,
 		obstacles = [],
@@ -28,8 +29,8 @@ var SNAKE = (function() {
 			var $segment = $(document.createElement('div')),
 				top = snake[i].x * segmentSize + $mainArea.offset().top,
 				left =  snake[i].y * segmentSize + $mainArea.offset().left;
-			$segment.attr({name: i});
-			$segment.addClass('snakeSegment')
+			$segment.attr({name: i})
+				.addClass('snakeSegment')
 				.offset({top: top, left:left})
 				.width(segmentSize-borderSize)
 				.height(segmentSize-borderSize);
@@ -66,20 +67,29 @@ var SNAKE = (function() {
 
 	foodCreator = function()
 	{
-		var x,y;
+		var x,y,colide;
 		do
 		{
-			var colide = false;
+			colide = false;
 			x = Math.round(Math.random() * width);
 			y = Math.round(Math.random() * height);
-			for(var i = 0; i<obstacles.length; i++)
+			for(var i = 0; i < snake.length; i++)
 			{
-				if ((obstacles[i].x == x) && (obstacles[i].y == y))
+				if ((snake[i].x == x) && (snake[i].y ==y))
 				{
-					colide == true;
-					break;
-				}	
+					colide = true;
+					//break;
+				}
 			}
+			if(!colide)
+				for(var i = 0; i < obstacles.length; i++)
+				{
+					if ((obstacles[i].x == x) && (obstacles[i].y == y))
+					{
+						colide == true;
+					//	break;
+					}	
+				}
 		}while(colide == true)
 
 		food = {x: x, y: y};
@@ -117,6 +127,7 @@ var SNAKE = (function() {
 	{
 		var x = 0,
 			y = 0;
+
 		switch (direction)
 		{
 			case 'up': x--; break;
@@ -124,6 +135,7 @@ var SNAKE = (function() {
 			case 'left': y--; break;
 			case 'right': y++; break;
 		}
+
 		var lastSegmentPosition = snake[0];
 		moveSnake();
 		snake[snake.length-1].x+=x;
@@ -156,7 +168,7 @@ var SNAKE = (function() {
 			$segment.attr({name: snake.length-1});
 			$segment.addClass('snakeSegment').offset({top: top, left:left})
 				.height(segmentSize - borderSize)
-				.width(segmentSize) - borderSize;
+				.width(segmentSize - borderSize);
 			$mainArea.prepend($segment);
 		console.log(snake);
 	}
@@ -210,6 +222,7 @@ var SNAKE = (function() {
 
 	directionSet = function(event)
 	{	
+		oldDirection = direction;
 		switch (event.keyCode)
 		{
 			case 38: direction = 'up';  event.preventDefault(); break;
@@ -217,6 +230,10 @@ var SNAKE = (function() {
 			case 37: direction = 'left';  event.preventDefault(); break;
 			case 39: direction = 'right';  event.preventDefault(); break;
 		}
+		if((oldDirection == 'up') && (direction == 'down')) direction = oldDirection;
+		if((oldDirection == 'down') && (direction == 'up')) direction = oldDirection;
+		if((oldDirection == 'left') && (direction == 'right')) direction = oldDirection;
+		if((oldDirection == 'right') && (direction == 'left')) direction = oldDirection;
 	}
 
 

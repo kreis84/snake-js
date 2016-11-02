@@ -19,7 +19,7 @@ body,html
 	position: absolute;
 	box-sizing: border-box;
 	background-color: white;
-	border: 2px solid yellow;
+	border: 2px solid red;
 	border-radius: 2px;
 	transition: background-color 1s;
 	transition: border 1s;
