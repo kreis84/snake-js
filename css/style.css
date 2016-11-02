@@ -44,6 +44,17 @@ body,html
 
 }
 
+.snakeLengthText
+{
+	position: relative;
+	color: white;
+	box-sizing: border-box;
+ 	padding: 10px;
+	border: 2px solid #cccccc;
+	margin: 0 2%;
+	text-align: center;
+}
+
 .startText
 {
 	color: white;

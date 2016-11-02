@@ -12,14 +12,14 @@ var SNAKE = (function() {
 		snake = [],
 		direction = 'right',
 		oldDirection,
-		interval = 200,
+		interval = 150,
 		intervalVariavle,
 		obstaclesQuantity = 50,
 		obstacles = [],
 		$food,
 		food = false,
 		eating = false,
-
+		$snakeLengthText;
 
 
 	initSnake = function()
@@ -67,31 +67,32 @@ var SNAKE = (function() {
 
 	foodCreator = function()
 	{
-		var x,y,colide;
+		var x, y, colide;
+
 		do
 		{
 			colide = false;
 			x = Math.round(Math.random() * width);
 			y = Math.round(Math.random() * height);
-			for(var i = 0; i < snake.length; i++)
+
+			for( var i = 0; i < snake.length; i++)
 			{
-				if ((snake[i].x == x) && (snake[i].y ==y))
+				if((snake[i].x == x) && (snake[i].y == y))
 				{
 					colide = true;
-					//break;
 				}
 			}
-			if(!colide)
-				for(var i = 0; i < obstacles.length; i++)
-				{
-					if ((obstacles[i].x == x) && (obstacles[i].y == y))
-					{
-						colide == true;
-					//	break;
-					}	
-				}
-		}while(colide == true)
 
+			for(var i = 0; i < obstacles.length; i++)
+			{
+				if((obstacles[i].x == x) && (obstacles[i].y == y))
+				{
+					colide = true;
+				}
+			}
+
+		}while(colide)
+		
 		food = {x: x, y: y};
 		x = x * segmentSize + $mainArea.offset().top + 2;
 		y = y * segmentSize + $mainArea.offset().left + 2;
@@ -170,7 +171,7 @@ var SNAKE = (function() {
 				.height(segmentSize - borderSize)
 				.width(segmentSize - borderSize);
 			$mainArea.prepend($segment);
-		console.log(snake);
+			$snakeLengthText.text('SNAKE LENGTH: '+ snake.length);
 	}
 
 	colisionCheck = function()
@@ -247,6 +248,10 @@ var SNAKE = (function() {
 				$(document).on('keydown', directionSet);
 				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
 				direction = 'right'	;
+				$snakeLengthText = $(document.createElement('div'))
+									.addClass('snakeLengthText')
+									.text("SNAKE LENGTH: "+snake.length)
+									.width($mainArea.width() - 20);
 				var $startText = $(document.createElement('div'))
 								.text('Click here to start')
 								.addClass('startText').
@@ -255,10 +260,11 @@ var SNAKE = (function() {
 									mainLoopStart();
 									obstaclesCreation();
 									initObstacle();	
+									$mainArea.after($snakeLengthText);
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);
-
+				$('body').append($('<div class = \'smth\'></div>').text('buraczanka'));
 			}
 	};
 })();
