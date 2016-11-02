@@ -4,8 +4,10 @@ $(document).ready(function(){
 
 
 var SNAKE = (function() {
-	var width = 50,
-		height = 50,
+	var width = 30,
+		height = 30,
+		segmentSize = 20,
+		borderSize = 4,
 		$mainArea,		
 		snake = [],
 		direction,
@@ -15,17 +17,22 @@ var SNAKE = (function() {
 		obstacles = [],
 		$food,
 		food = false,
-		eating = false;
+		eating = false,
+
+
 
 	initSnake = function()
 	{
 		for(var i=0; i<snake.length;i++)
 		{
 			var $segment = $(document.createElement('div')),
-				top = snake[i].x * 10 + $mainArea.offset().top,
-				left =  snake[i].y * 10 + $mainArea.offset().left;
+				top = snake[i].x * segmentSize + $mainArea.offset().top,
+				left =  snake[i].y * segmentSize + $mainArea.offset().left;
 			$segment.attr({name: i});
-			$segment.addClass('snakeSegment').offset({top: top, left:left});
+			$segment.addClass('snakeSegment')
+				.offset({top: top, left:left})
+				.width(segmentSize-borderSize)
+				.height(segmentSize-borderSize);
 			$mainArea.prepend($segment);
 		}
 	}	
@@ -35,8 +42,8 @@ var SNAKE = (function() {
 		var x=0 , y=0;
 		for (var i = 0; i < obstaclesQuantity; i++)
 		{	
-			x = Math.round(Math.random() * 50);
-			y = Math.round(Math.random() * 50);
+			x = Math.round(Math.random() * width);
+			y = Math.round(Math.random() * height);
 			if(x==1) x = y;
 			obstacles.push({x: x, y: y});
 		}
@@ -49,21 +56,39 @@ var SNAKE = (function() {
 		{
 			$obstacle =	$(document.createElement('div'))
 					.addClass('obstacle')
-					.offset({top: obstacles[i].x*10 + $mainArea.offset().top + 2,
-							 left: obstacles[i].y*10 + $mainArea.offset().left + 2,});
+					.width(segmentSize - borderSize)
+					.height(segmentSize - borderSize)
+					.offset({top: obstacles[i].x * segmentSize + $mainArea.offset().top + 2,
+							 left: obstacles[i].y * segmentSize + $mainArea.offset().left + 2,});
 			$mainArea.append($obstacle);
 		}
 	}
 
 	foodCreator = function()
 	{
-		var x = Math.round(Math.random() * 50),
-			y = Math.round(Math.random() * 50);
+		var x,y;
+		do
+		{
+			var colide = false;
+			x = Math.round(Math.random() * width);
+			y = Math.round(Math.random() * height);
+			for(var i = 0; i<obstacles.length; i++)
+			{
+				if ((obstacles[i].x == x) && (obstacles[i].y == y))
+				{
+					colide == true;
+					break;
+				}	
+			}
+		}while(colide == true)
+
 		food = {x: x, y: y};
-		x = x * 10 + $mainArea.offset().top + 2;
-		y = y * 10 + $mainArea.offset().left + 2;
+		x = x * segmentSize + $mainArea.offset().top + 2;
+		y = y * segmentSize + $mainArea.offset().left + 2;
 		$food = $(document.createElement('div'))
 				.addClass('food')
+				.width(segmentSize - borderSize)
+				.height(segmentSize - borderSize)
 				.offset({top: x, left: y});			
 		console.log(food);
 		$mainArea.append($food);
@@ -74,8 +99,8 @@ var SNAKE = (function() {
 		var top, left;
 		for(var i = 0; i < snake.length; i++)
 		{
-			top = snake[i].x * 10 + $mainArea.offset().top+2;
-			left =  snake[i].y * 10 + $mainArea.offset().left+2;
+			top = snake[i].x * segmentSize + $mainArea.offset().top+2;
+			left =  snake[i].y * segmentSize + $mainArea.offset().left+2;
 			var string = '.snakeSegment[name=\''+(snake.length-i-1)+'\']';
 			var $temp = $(string);
 			$temp.offset({top: top, left: left});
@@ -126,10 +151,12 @@ var SNAKE = (function() {
 	{
 		snake.unshift({x: x, y: y});
 		var $segment = $(document.createElement('div')),
-				top = snake[0].x * 10 + $mainArea.offset().top,
-				left =  snake[0].y * 10 + $mainArea.offset().left;
+				top = snake[0].x * segmentSize + $mainArea.offset().top,
+				left =  snake[0].y * segmentSize + $mainArea.offset().left;
 			$segment.attr({name: snake.length-1});
-			$segment.addClass('snakeSegment').offset({top: top, left:left});
+			$segment.addClass('snakeSegment').offset({top: top, left:left})
+				.height(segmentSize - borderSize)
+				.width(segmentSize) - borderSize;
 			$mainArea.prepend($segment);
 		console.log(snake);
 	}
@@ -143,16 +170,14 @@ var SNAKE = (function() {
 				if(i==j) continue;
 				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
 					onColision();
-					//console.log('self fail');
 			}
 
 		////////////////////////////////////////////////////BORDER COLISION
 		for(var i = 0; i < snake.length; i++)
 		{
-			if((snake[i].x < 0) || (snake[i].x > 50) ||
-			   (snake[i].y < 0) || (snake[i].y > 50))
+			if((snake[i].x < 0) || (snake[i].x > width) ||
+			   (snake[i].y < 0) || (snake[i].y > height))
 					onColision();
-				//console.log('border fail');
 		}
 
 		///////////////////////////////////////////////////OBSTACLE COLISION
@@ -200,7 +225,7 @@ var SNAKE = (function() {
 		init: function()
 			{
 				$mainArea = $(document.createElement('div'));
-				$mainArea.addClass('mainArea').width(width*10+10).height(height*10+10);
+				$mainArea.addClass('mainArea').width(width * segmentSize + segmentSize + 2).height(height * segmentSize + segmentSize + 2);
 				$('body').prepend($mainArea);
 				$(document).on('keydown', directionSet);
 				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
@@ -216,6 +241,7 @@ var SNAKE = (function() {
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);
+
 			}
 	};
 })();

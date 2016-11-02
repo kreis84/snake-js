@@ -17,11 +17,9 @@ body,html
 .snakeSegment
 {
 	position: absolute;
-	width: 10px;
-	height: 10px;
 	box-sizing: border-box;
 	background-color: white;
-	border: 2px solid grey;
+	border: 2px solid yellow;
 	border-radius: 2px;
 	transition: background-color 1s;
 	transition: border 1s;
@@ -31,8 +29,6 @@ body,html
 {
 	box-sizing: border-box;
 	position: absolute;
-	width: 10px;
-	height: 10px;
 	border-radius: 5px;
 	background-color: red;
 	border: 2px solid white;
@@ -42,8 +38,6 @@ body,html
 {
 	box-sizing: border-box;
 	position: absolute;
-	width: 10px;
-	height: 10px;
 	border-radius: 5px;
 	background-color: green;
 	border: 2px solid lightgreen;
