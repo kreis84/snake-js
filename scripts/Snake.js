@@ -223,7 +223,10 @@ var SNAKE = (function() {
 	onColision = function()
 	{
 		clearInterval(intervalVariable);
-		$('.snakeSegment').css({opacity: '0'});
+		$('.snakeSegment').each(function(i){
+			$(this).delay(50*(snake.length-i))
+				   .animate({'background-color': 'red', 'border-width':'5px', 'border-style':'dotted', 'border-color':'darkred' },200);
+		});
 		$settings.fadeIn(400);
 		endTextShow();
 	}
@@ -231,8 +234,8 @@ var SNAKE = (function() {
 	onFoodColision = function()
 	{
 		$('.snakeSegment').each(function(i){
-			$(this).delay(200*(snake.length-i)).animate({'background-color':'#00ff00'}, 200, function(){
-				$(this).animate({'background-color':'#777777'}, 200);
+			$(this).delay(30*(snake.length-i)).animate({'background-color':'#00ff00'}, 50, function(){
+				$(this).animate({'background-color':'#777777'}, 50);
 			});
 		});
 	}
@@ -282,13 +285,15 @@ var SNAKE = (function() {
 	{
 		var $endText = $('<div>').addClass('endText')
 								.text('You achieve '+snakeLength+' length of snake!')
-								.append($('<p>Click here to play again.</p>'));
+								.append($('<p>Click here to play again.</p>'))
+								.css({display: 'none'});
 		$mainArea.append($endText);
 		$endText.on('click', function()
 		{
 			$(this).remove();
 			startGame();
 		})
+		$endText.fadeIn(600);
 	}
 
 	startGame = function()
