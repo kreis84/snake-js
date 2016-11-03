@@ -230,20 +230,10 @@ var SNAKE = (function() {
 
 	onFoodColision = function()
 	{
-		var top, left, oldTop, oldLeft;
-		$('.snakeSegment').each(function(i)
-		{
-			$(this).delay(50*(snake.length-i)).animate(
-				{width: segmentSize,
-				 height: segmentSize,
-				 'border-width': 0},
-				200, function() 
-				{
-					$(this).animate({width: segmentSize - borderSize,
-									 height: segmentSize - borderSize,
-									 'border-width': (borderSize/2)}, 200);
-				}
-			);
+		$('.snakeSegment').each(function(i){
+			$(this).delay(200*(snake.length-i)).animate({'background-color':'#00ff00'}, 200, function(){
+				$(this).animate({'background-color':'#777777'}, 200);
+			});
 		});
 	}
 
