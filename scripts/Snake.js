@@ -12,7 +12,7 @@ var SNAKE = (function() {
 		snake = [],
 		direction = 'right',
 		oldDirection,
-		interval = 150,
+		interval = 50,
 		intervalVariavle,
 		obstaclesQuantity = 50,
 		obstacles = [],
@@ -257,8 +257,23 @@ var SNAKE = (function() {
 			 			  .append('<div class=\'obstaclesDensity\'>')
 			 			  .append('<div class=\'snakeSpeed\'>');
 		$('body').append($settings);
-		$('.obstaclesDensity').append('<label>Obstacle density:</label>').append('<input type=\'range\'>');
-		$('.snakeSpeed').append('<input type=\'range\'>');
+
+		$('.obstaclesDensity').append('<label>Obstacle density: </label>')
+							  .append('<span class=\'obstaclesSpan\'>'+obstaclesQuantity+'</span>')
+							  .append('<input type=\'range\' min=\'0\' max =\'100\'>');
+		$('.obstaclesDensity input').on('change', function ()
+				{ obstaclesQuantity = $(this).val(); $('.obstaclesSpan').text(obstaclesQuantity);});
+
+		$('.snakeSpeed').append('<label>Snake speed: </label>')
+						.append('<span class=\'snakeSpan\'>'+4)
+						.append('<input type=\'range\' min=\'1\' max=\'10\' value = \'4\'>');
+		$settings.css({	width: $mainArea.width() });
+		$('.snakeSpeed input').on('change', function ()
+				{ var speed = $(this).val();
+					$('.snakeSpan').text(speed);
+				 	interval = 250 - (speed * 25);
+				});
+		interval = 250 - (4 * 25);
 	}
 
 

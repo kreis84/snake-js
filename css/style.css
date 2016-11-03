@@ -81,13 +81,41 @@ body,html
 .settings
 {
 	color: white;
+	border: 20px ridge  #cccccc;
+	border-radius: 20px;
+	margin: 10px;
 }
 
+.obstaclesDensity
+{
+	margin: 10px;
+}
 
+.obstaclesSpan
+{
+	display: inline-block;
+	float: right;
+	width: 40px;
+	text-align: right;
+}
+
+.snakeSpeed{
+	margin: 10px;
+}
+
+.snakeSpan
+{
+	float: right;
+	width: 40px;
+	text-align: right;
+}
 
 input[type=range]{
     -webkit-appearance: none;
+    float: right;
+    width: 250px;
 }
+
 
 input[type=range]::-webkit-slider-runnable-track {
     width: 300px;
