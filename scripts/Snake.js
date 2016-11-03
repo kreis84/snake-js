@@ -20,8 +20,7 @@ var SNAKE = (function() {
 		food = false,
 		eating = false,
 		mainAreaBorderSize = 20,
-		$snakeLengthText;
-
+		$settings;
 
 	initSnake = function()
 	{
@@ -252,6 +251,15 @@ var SNAKE = (function() {
 		if((oldDirection == 'right') && (direction == 'left')) direction = oldDirection;
 	}
 
+	settingsInit = function()
+	{		
+	 	$settings =	$('<form>').addClass('settings')
+			 			  .append('<div class=\'obstaclesDensity\'>')
+			 			  .append('<div class=\'snakeSpeed\'>');
+		$('body').append($settings);
+		$('.obstaclesDensity').append('<label>Obstacle density:</label>').append('<input type=\'range\'>');
+		$('.snakeSpeed').append('<input type=\'range\'>');
+	}
 
 
 	return{
@@ -274,6 +282,7 @@ var SNAKE = (function() {
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);
+				settingsInit();
 			}
 	};
 })();
