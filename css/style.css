@@ -8,10 +8,11 @@ body,html
 
 .mainArea
 {
-	border: 2px solid #cccccc;
+	border: 20px ridge  #cccccc;
 	margin: 2%;
 	display: inline-block;
-
+	box-sizing: border-box;
+	z-index: 10;
 }
 
 .snakeSegment
@@ -23,6 +24,7 @@ body,html
 	border-radius: 2px;
 	transition: background-color 1s;
 	transition: border 1s;
+	z-index: 0;
 }
 
 .obstacle

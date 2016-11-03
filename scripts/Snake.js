@@ -19,6 +19,7 @@ var SNAKE = (function() {
 		$food,
 		food = false,
 		eating = false,
+		mainAreaBorderSize = 20,
 		$snakeLengthText;
 
 
@@ -27,8 +28,8 @@ var SNAKE = (function() {
 		for(var i=0; i<snake.length;i++)
 		{
 			var $segment = $(document.createElement('div')),
-				top = snake[i].x * segmentSize + $mainArea.offset().top,
-				left =  snake[i].y * segmentSize + $mainArea.offset().left;
+				top = snake[i].x * segmentSize + $mainArea.offset().top + mainAreaBorderSize,
+				left =  snake[i].y * segmentSize + $mainArea.offset().left + mainAreaBorderSize;
 			$segment.attr({name: i})
 				.addClass('snakeSegment')
 				.offset({top: top, left:left})
@@ -59,8 +60,8 @@ var SNAKE = (function() {
 					.addClass('obstacle')
 					.width(segmentSize - borderSize)
 					.height(segmentSize - borderSize)
-					.offset({top: obstacles[i].x * segmentSize + $mainArea.offset().top + 2,
-							 left: obstacles[i].y * segmentSize + $mainArea.offset().left + 2,});
+					.offset({top: obstacles[i].x * segmentSize + $mainArea.offset().top +  mainAreaBorderSize,
+							 left: obstacles[i].y * segmentSize + $mainArea.offset().left +  mainAreaBorderSize});
 			$mainArea.append($obstacle);
 		}
 	}
@@ -94,8 +95,8 @@ var SNAKE = (function() {
 		}while(colide)
 		
 		food = {x: x, y: y};
-		x = x * segmentSize + $mainArea.offset().top + 2;
-		y = y * segmentSize + $mainArea.offset().left + 2;
+		x = x * segmentSize + $mainArea.offset().top + mainAreaBorderSize;
+		y = y * segmentSize + $mainArea.offset().left + mainAreaBorderSize;
 		$food = $(document.createElement('div'))
 				.addClass('food')
 				.width(segmentSize - borderSize)
@@ -110,8 +111,8 @@ var SNAKE = (function() {
 		var top, left;
 		for(var i = 0; i < snake.length; i++)
 		{
-			top = snake[i].x * segmentSize + $mainArea.offset().top+2;
-			left =  snake[i].y * segmentSize + $mainArea.offset().left+2;
+			top = snake[i].x * segmentSize + $mainArea.offset().top + mainAreaBorderSize;
+			left =  snake[i].y * segmentSize + $mainArea.offset().left + mainAreaBorderSize;
 			var string = '.snakeSegment[name=\''+(snake.length-i-1)+'\']';
 			var $temp = $(string);
 			$temp.offset({top: top, left: left});
@@ -264,7 +265,7 @@ var SNAKE = (function() {
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);
-				$('body').append($('<div class = \'smth\'></div>').text('buraczanka'));
+				//$('body').append($('<div class = \'smth\'></div>').text('buraczanka'));
 			}
 	};
 })();
