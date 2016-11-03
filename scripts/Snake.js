@@ -212,9 +212,10 @@ var SNAKE = (function() {
 
 	onColision = function()
 	{
-		clearInterval(intervalVariable);
 		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
-
+	//	$mainArea.css({'border-color': 'red'});
+		$mainArea.animate({'border-color': 'red'}, 400, function(){});
+		clearInterval(intervalVariable);
 	}
 
 	onFoodColision = function()

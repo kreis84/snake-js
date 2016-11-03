@@ -9,19 +9,18 @@ body,html
 .mainArea
 {
 	border: 20px ridge  #cccccc;
-	margin: 2%;
+	margin-top: 10px;
+	margin-left: 10px;
 	display: inline-block;
-	box-sizing: border-box;
 	z-index: 10;
 }
 
 .snakeSegment
 {
 	position: absolute;
-	box-sizing: border-box;
-	background-color: white;
-	border: 2px solid red;
-	border-radius: 2px;
+	background-color: grey;
+	border: 2px solid white;
+	border-radius: 3px;
 	transition: background-color 1s;
 	transition: border 1s;
 	z-index: 0;
@@ -29,18 +28,16 @@ body,html
 
 .obstacle
 {
-	box-sizing: border-box;
 	position: absolute;
-	border-radius: 5px;
-	background-color: red;
-	border: 2px solid white;
+	border-radius: 3px;
+	background-color: darkred;
+	border: 2px solid red;
 }
 
 .food
 {
-	box-sizing: border-box;
 	position: absolute;
-	border-radius: 5px;
+	border-radius: 3px;
 	background-color: green;
 	border: 2px solid lightgreen;
 
@@ -50,10 +47,8 @@ body,html
 {
 	position: relative;
 	color: white;
-	box-sizing: border-box;
  	padding: 10px;
 	border: 2px solid #cccccc;
-	margin: 0 2%;
 	text-align: center;
 }
 
@@ -70,7 +65,7 @@ body,html
 	text-align: center;
 	border-radius: 50px;
 	top: 50%;
-	transform: translateY(-50%);
+    transform: translateY(-50%);
 	position: relative;
 	transition: background-color 0.5s;
 	transition: color 0.5s;
