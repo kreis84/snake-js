@@ -10,13 +10,14 @@ var SNAKE = (function() {
 		borderSize = 4,
 		$mainArea,		
 		snake = [],
+		snakeLength,
 		direction = 'right',
 		oldDirection,
 		interval = 50,
 		intervalVariavle,
 		obstaclesQuantity = 50,
 		obstacles = [],
-		$food,
+		//$food,
 		food = false,
 		eating = false,
 		mainAreaBorderSize = 20,
@@ -181,7 +182,11 @@ var SNAKE = (function() {
 			{
 				if(i==j) continue;
 				if((snake[i].x == snake[j].x) && (snake[i].y == snake[j].y))
+				{	
+					snakeLength = snake.length;
+					snake.length = 0;
 					onColision();
+				}
 			}
 
 		////////////////////////////////////////////////////BORDER COLISION
@@ -189,14 +194,20 @@ var SNAKE = (function() {
 		{
 			if((snake[i].x < 0) || (snake[i].x > width) ||
 			   (snake[i].y < 0) || (snake[i].y > height))
+				{	
+					snakeLength = snake.length;
 					onColision();
+				}
 		}
 
 		///////////////////////////////////////////////////OBSTACLE COLISION
 		for(var i=0; i<obstacles.length; i++)
 		{
 			if((snake[snake.length-1].x == obstacles[i].x) && (snake[snake.length-1].y == obstacles[i].y))
-				onColision();
+				{
+					snakeLength = snake.length;
+					onColision();
+				}
 		}
 		//////////////////////////////////////////////////////FOOD COLISION
 		if((snake[snake.length-1].x == food.x) &&  (snake[snake.length-1].y == food.y))
@@ -222,7 +233,6 @@ var SNAKE = (function() {
 		var top, left, oldTop, oldLeft;
 		$('.snakeSegment').each(function(i)
 		{
-			console.log(top+ 'klamotanieeeeeeeeeeeeeeeee '+ oldTop);
 			$(this).delay(50*(snake.length-i)).animate(
 				{width: segmentSize,
 				 height: segmentSize,
@@ -232,7 +242,8 @@ var SNAKE = (function() {
 					$(this).animate({width: segmentSize - borderSize,
 									 height: segmentSize - borderSize,
 									 'border-width': (borderSize/2)}, 200);
-				});
+				}
+			);
 		});
 	}
 
@@ -266,21 +277,21 @@ var SNAKE = (function() {
 				{ obstaclesQuantity = $(this).val(); $('.obstaclesSpan').text(obstaclesQuantity);});
 
 		$('.snakeSpeed').append('<label>Snake speed: </label>')
-						.append('<span class=\'snakeSpan\'>'+4)
-						.append('<input type=\'range\' min=\'1\' max=\'10\' value = \'4\'>');
+						.append('<span class=\'snakeSpan\'>'+5)
+						.append('<input type=\'range\' min=\'1\' max=\'10\' value = \'5\'>');
 		$settings.css({	width: $mainArea.width() });
 		$('.snakeSpeed input').on('change', function ()
 				{ var speed = $(this).val();
 					$('.snakeSpan').text(speed);
 				 	interval = 250 - (speed * 25);
 				});
-		interval = 250 - (4 * 25);
+		interval = 250 - (5 * 25);
 	}
 
 	endTextShow = function()
 	{
 		var $endText = $('<div>').addClass('endText')
-								.text('You achieve '+snake.length+' length of snake!')
+								.text('You achieve '+snakeLength+' length of snake!')
 								.append($('<p>Click here to play again.</p>'));
 		$mainArea.append($endText);
 		$endText.on('click', function()
@@ -292,6 +303,8 @@ var SNAKE = (function() {
 
 	startGame = function()
 	{
+		food = false;
+		$('.food').remove();
 		obstacles.length = 0;
 		snake.length = 0;
 		$('.obstacle').remove();
@@ -312,8 +325,6 @@ var SNAKE = (function() {
 				$mainArea.addClass('mainArea').width(width * segmentSize + segmentSize + 2).height(height * segmentSize + segmentSize + 2);
 				$('body').prepend($mainArea);
 				$(document).on('keydown', directionSet);
-				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
-				direction = 'right'	;
 				var $startText = $(document.createElement('div'))
 								.text('Click here to start')
 								.addClass('startText').
