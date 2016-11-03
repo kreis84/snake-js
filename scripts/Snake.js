@@ -205,6 +205,7 @@ var SNAKE = (function() {
 			eating = true;
 			$food.remove();
 			food = false;
+			onFoodColision();
 		}
 		
 	}
@@ -218,7 +219,21 @@ var SNAKE = (function() {
 
 	onFoodColision = function()
 	{
-
+		var top, left, oldTop, oldLeft;
+		$('.snakeSegment').each(function(i)
+		{
+			console.log(top+ 'klamotanieeeeeeeeeeeeeeeee '+ oldTop);
+			$(this).delay(50*(snake.length-i)).animate(
+				{width: segmentSize,
+				 height: segmentSize,
+				 'border-width': 0},
+				200, function() 
+				{
+					$(this).animate({width: segmentSize - borderSize,
+									 height: segmentSize - borderSize,
+									 'border-width': (borderSize/2)}, 200);
+				});
+		});
 	}
 
 	directionSet = function(event)
