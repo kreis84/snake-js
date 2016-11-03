@@ -211,9 +211,10 @@ var SNAKE = (function() {
 
 	onColision = function()
 	{
-		$('.snakeSegment').css({opacity: '0'});
-		$mainArea.css({'border-color': 'black'});
 		clearInterval(intervalVariable);
+		$('.snakeSegment').css({opacity: '0'});
+		$settings.fadeIn(400);
+		endTextShow();
 	}
 
 	onFoodColision = function()
@@ -276,6 +277,33 @@ var SNAKE = (function() {
 		interval = 250 - (4 * 25);
 	}
 
+	endTextShow = function()
+	{
+		var $endText = $('<div>').addClass('endText')
+								.text('You achieve '+snake.length+' length of snake!')
+								.append($('<p>Click here to play again.</p>'));
+		$mainArea.append($endText);
+		$endText.on('click', function()
+		{
+			$(this).remove();
+			startGame();
+		})
+	}
+
+	startGame = function()
+	{
+		obstacles.length = 0;
+		snake.length = 0;
+		$('.obstacle').remove();
+		$('.snakeSegment').remove();
+		snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
+		direction = 'right';
+		initSnake();
+		mainLoopStart();
+		obstaclesCreation();
+		initObstacle();	
+		$settings.fadeOut(400);
+	}
 
 	return{
 		init: function()
@@ -290,11 +318,8 @@ var SNAKE = (function() {
 								.text('Click here to start')
 								.addClass('startText').
 								on('click', function(){ 
-									initSnake();
-									mainLoopStart();
-									obstaclesCreation();
-									initObstacle();	
 									$(this).remove();
+									startGame();								
 								});
 				$mainArea.prepend($startText);
 				settingsInit();
