@@ -13,6 +13,8 @@ body,html
 	margin-left: 10px;
 	display: inline-block;
 	z-index: 10;
+	transition: border 1s;
+	border-radius: 20px;
 }
 
 .snakeSegment
@@ -21,8 +23,7 @@ body,html
 	background-color: grey;
 	border: 2px solid white;
 	border-radius: 3px;
-	transition: background-color 1s;
-	transition: border 1s;
+	transition: opacity 1s;
 	z-index: 0;
 }
 

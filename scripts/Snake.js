@@ -165,14 +165,13 @@ var SNAKE = (function() {
 	{
 		snake.unshift({x: x, y: y});
 		var $segment = $(document.createElement('div')),
-				top = snake[0].x * segmentSize + $mainArea.offset().top,
-				left =  snake[0].y * segmentSize + $mainArea.offset().left;
+				top = snake[0].x * segmentSize + $mainArea.offset().top + mainAreaBorderSize,
+				left =  snake[0].y * segmentSize + $mainArea.offset().left + mainAreaBorderSize;
 			$segment.attr({name: snake.length-1});
 			$segment.addClass('snakeSegment').offset({top: top, left:left})
 				.height(segmentSize - borderSize)
 				.width(segmentSize - borderSize);
 			$mainArea.prepend($segment);
-			$snakeLengthText.text('SNAKE LENGTH: '+ snake.length);
 	}
 
 	colisionCheck = function()
@@ -212,9 +211,8 @@ var SNAKE = (function() {
 
 	onColision = function()
 	{
-		$('.snakeSegment').css({'background-color': 'red', border: '1px dotted white'});
-	//	$mainArea.css({'border-color': 'red'});
-		$mainArea.animate({'border-color': 'red'}, 400, function(){});
+		$('.snakeSegment').css({opacity: '0'});
+		$mainArea.css({'border-color': 'black'});
 		clearInterval(intervalVariable);
 	}
 
@@ -250,10 +248,6 @@ var SNAKE = (function() {
 				$(document).on('keydown', directionSet);
 				snake.push({x:1,y:1}, {x:1,y:2}, {x:1,y:3}, {x:1,y:4}, {x:1,y:5});
 				direction = 'right'	;
-				$snakeLengthText = $(document.createElement('div'))
-									.addClass('snakeLengthText')
-									.text("SNAKE LENGTH: "+snake.length)
-									.width($mainArea.width() - 20);
 				var $startText = $(document.createElement('div'))
 								.text('Click here to start')
 								.addClass('startText').
@@ -262,11 +256,9 @@ var SNAKE = (function() {
 									mainLoopStart();
 									obstaclesCreation();
 									initObstacle();	
-									$mainArea.after($snakeLengthText);
 									$(this).remove();
 								});
 				$mainArea.prepend($startText);
-				//$('body').append($('<div class = \'smth\'></div>').text('buraczanka'));
 			}
 	};
 })();
